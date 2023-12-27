@@ -9,7 +9,8 @@ module.exports = {
         primary: '#476072',
         secondary: '#EEEEEE',
         button: '#6394A8',
-        text: '#2C2C2C'
+        text: '#2C2C2C',
+        done: '#1D8841'
       },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
