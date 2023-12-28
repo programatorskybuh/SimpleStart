@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import uvodImg from './img/uvod.svg';
 import figmaImg from './img/figma.svg';
@@ -14,20 +14,59 @@ import vizeImg from './img/vize.svg';
 import logovizeImg from './img/logovize.svg';
 import arrowImg from './img/arrow.svg';
 import doneImg from './img/done.svg';
+import mailImg from './img/mail.svg';
+import phoneImg from './img/phone.svg';
+import mapImg from './img/map.svg';
+import whiteLogoImg from './img/white_logo.svg';
+import fbImg from './img/facebook.svg';
+import igImg from './img/instagram.svg';
 
 export default function Main() {
-    return(
-      <div className='font-poppins'>
-        <Uvod />
-        <Produkty />
-        <Onas />
-        <Vize />
-        {/* <Galerie /> */}
-        <Dotaznik />
-        <Kontakty />
+  return(
+    <div className='font-poppins'>
+      <Navbar />
+      <Uvod />
+      <Produkty />
+      <Onas />
+      <Vize />
+      {/* <Galerie /> */}
+      <Dotaznik />
+      <Kontakty />
+      <Footer />
+    </div>
+  );
+}
+
+function Navbar(){
+  const [scrolling, setScrolling] = useState(false);
+
+  console.log(scrolling);
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {setScrolling(window.scrollY > 0)})
+    return () =>{
+      window.removeEventListener('scroll', () => {setScrolling(window.scrollY > 0)})
+    };
+  }, [])
+
+  return(
+    <nav className={`w-full ${scrolling ? 'py-5' : 'py-10'} fixed flex justify-center bg-primary`}>
+      <div className='w-10/12  flex items-center justify-between'>
+        <img src={whiteLogoImg} alt='logo'/>
+        <div className='text-white text-xl flex gap-20'>
+          <div className='flex items-center gap-5'>
+            <a>O nás</a>
+            <a>Galerie</a>
+            <a>Služby</a>
+            <a>Kontakt</a>
+            <a>Více</a>
+          </div>
+          <button className='bg-[#6394A8] rounded-full py-3 px-8'>Objednat</button>
+        </div>
       </div>
-    );
-  }
+    </nav>
+  );
+}
   
 function Uvod(){
   return (
@@ -169,17 +208,17 @@ function Dotaznik(){
       <div className='bg-white w-8/12 p-8'>
       <header className='p-5 flex justify-between border-b-2'>
         <div className='flex text-xl items-center gap-2'>
-          <div className='rounded-full w-10 h-10 bg-primary flex justify-center items-center text-white'>1</div>
+          <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white ${page === 1 && 'bg-primary'} ${page >= 2 && 'bg-done'}`}>{page === 1 && ("1")}{page >= 2 && (<img src={doneImg} alt='done'/>)}</div>
           <p className='font-bold '>Kontakt</p>
         </div>
         <img src={arrowImg} alt='šipkos' />
         <div className='flex text-xl items-center gap-2'>
-          <div className='rounded-full w-10 h-10 bg-gray-300 flex justify-center items-center text-white'>2</div>
+          <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white ${page === 1 && 'bg-gray-300'} ${page === 2 && 'bg-primary'} ${page === 3 && 'bg-done'}`}>{page <= 2 && ("2")}{page >= 3 && (<img src={doneImg} alt='done'/>)}</div>
           <p className='font-bold '>společnost</p>
         </div>
         <img src={arrowImg} alt='šipkos' />
         <div className='flex text-xl items-center gap-2'>
-          <div className='rounded-full w-10 h-10 bg-gray-300 flex justify-center items-center text-white'>3</div>
+          <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white ${page <= 2 && 'bg-gray-300'} ${page === 3 && 'bg-primary'}`}>{page <= 3 && ("3")}{page >= 4 && (<img src={doneImg} alt='done'/>)}</div>
           <p className='font-bold '>Projekt</p>
         </div>
       </header>
@@ -336,8 +375,72 @@ function ThirdPage({prevPage, onSubmit, onChange, formData}){
 function Kontakty(){
 
   return(
-    <section>
-      
+    <section className='h-full bg-secondary text-text flex flex-col items-center'>
+      <div className='text-center w-9/12'>
+        <h1 className='font-semibold text-5xl m-10'>Kontakty</h1>
+        <p className='font-semibold text-xl'>Máme rádi osobní spojení! Navštivte nás na naší adrese a promluvte si s naším týmem o tom, jak můžeme společně posunout váš digitální image vpřed. Alternativně nás můžete kontaktovat telefonicky nebo prostřednictvím e-mailu a rádi vám poskytneme veškeré informace ohledně našich služeb a spolupráce.</p>
+        <div className='flex justify-between my-10'>
+          <div className='font-semibold text-2xl flex flex-col gap-10 justify-center'>
+            <div className='flex gap-6 items-center'>
+              <img src={mailImg} alt='mail' />
+              <p>simplestartsro@gmail.com</p>
+            </div>
+            <div className='flex gap-6 items-center'>
+              <img src={phoneImg} alt='phone' />
+              <p>+420 776 348 106</p>
+            </div>
+            <div className='flex gap-6 items-center'>
+              <img src={mapImg} alt='map' />
+              <p>Olonkinbyen<br/>8099, Jan Mayen</p>
+            </div>
+          </div>
+          <iframe title="Google Maps" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d333727.45762882615!2d-9.144107063923613!3d70.92913162642576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4f4503c0d48cfe05%3A0x81a5cda944176e23!2sOlonkinbyen%208099%2C%20Jan%20Mayen!5e0!3m2!1scs!2scz!4v1703696721107!5m2!1scs!2scz" width="600" height="450" style={{ border: 0 }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+        </div>
+      </div>
     </section>
+  );
+}
+
+function Footer(){
+  return(
+    <footer className='bg-primary text-white flex justify-center'>
+      <div className='w-10/12 m-16 mb-0'>
+        <div className='text-sm flex justify-between'>
+          <div className='flex flex-col gap-3'>
+            <h3 className='font-bold text-lg pb-5'>SimpleStart</h3>
+            <p>Úvod</p>
+            <p>Produkty/Služby</p>
+            <p>O nás</p>
+            <p>Naše vize</p>
+          </div>
+          <div className='flex flex-col gap-3'>
+            <h3 className='font-bold text-lg pb-5'>Další</h3>
+            <p>Galerie</p>
+            <p>Dotazník</p>
+            <p>Kontakty</p>
+          </div>
+          <div className='flex flex-col gap-3'>
+            <h3 className='font-bold text-lg pb-5'>Sociální sítě</h3>
+            <p>Instagram</p>
+            <p>Facebook</p>
+          </div>
+          <div className='flex flex-col gap-3'>
+            <h3 className='font-bold text-lg pb-5'>Odebírat</h3>
+            <p>Odebírejte náš newsletter aby vám nic neuniklo.<br/><span className='flex items-center'>Odebírejte Simple<img className='w-[20px]' src={whiteLogoImg} alt='logo'/>Start.</span></p>
+            <div className='flex gap-4'>
+              <input type='email' placeholder='Vaše e-mailová adresa' className='rounded-xl px-3 text-black' />
+              <input type='submit' value={"Odebírat"} className='text-black bg-white py-4 px-6 rounded-xl font-bold' />
+            </div>
+          </div>
+        </div>
+        <div className='flex justify-between'>
+          <p className='font-light text-xs my-6'>© 2023 SimpleStart - Všechna práva vyhrazena.</p>
+          <div className='flex gap-4'>
+            <img src={fbImg} alt='facebook'/>
+            <img src={igImg} alt='instagram'/>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }
