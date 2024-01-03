@@ -45,13 +45,13 @@ const Dotaznik = forwardRef((props, ref) =>{
             <p className='font-bold '>Projekt</p>
           </div>
         </header>
-        {page == 1 &&(
+        {page === 1 &&(
           <FirstPage nextPage={() => setPage(page + 1)} onChange={handleChange} formData={formData}/>
         )}
-        {page == 2 &&(
+        {page === 2 &&(
           <SecondPage nextPage={() => setPage(page + 1)} prevPage={() => setPage(page - 1)} onChange={handleChange} formData={formData}/>
         )}
-        {page == 3 &&(
+        {page === 3 &&(
           <ThirdPage onSubmit={handleSubmit} prevPage={() => setPage(page - 1)} onChange={handleChange} formData={formData}/>
         )}
         </div>
@@ -64,7 +64,7 @@ const Dotaznik = forwardRef((props, ref) =>{
   
     function handleNextPage(){
       console.log(formData)
-      if(formData.name == "" || formData.phone == "" || formData.email == ""){
+      if(formData.name === "" || formData.phone === "" || formData.email === ""){
         alert("Prosím vyplň všechny položky");
         return;
       }
@@ -103,7 +103,7 @@ const Dotaznik = forwardRef((props, ref) =>{
   
     function handleNextPage(){
       console.log(formData)
-      if(formData.company == "" || formData.motto == "" || formData.about == ""){
+      if(formData.company === "" || formData.motto === "" || formData.about === ""){
         alert("Prosím vyplň všechny položky");
         return;
       }
@@ -143,7 +143,7 @@ const Dotaznik = forwardRef((props, ref) =>{
   
     function handleSend(){
       console.log(formData)
-      if(formData.goal == "" || formData.hodnoceni == ""){
+      if(formData.goal === "" || formData.hodnoceni === ""){
         alert("Prosím vyplň všechny položky");
         return;
       }

@@ -15,7 +15,7 @@ const Vize = forwardRef((props, ref) =>{
             <p className='p-2 text-center xl:p-0 xl:text-left'>Ve společnosti SimpleStart jsme <span className='text-primary'>architekty</span> vašeho digitálního <span className='text-primary'>úspěchu</span>. Jako dynamická startupová společnost se specializujeme na tvorbu webových stránek a optimalizaci strategií sociálních médií, které vaši značku vynesou do nových výšin. Náš specializovaný tým odborníků je poháněn <span className='text-primary'>inovacemi</span>, <span className='text-primary'>spoluprací</span> a <span className='text-primary'>vášní pomáhat</span> firmám prezentovat se ve stále se vyvíjejícím online prostředí.</p>
           </div>
           <div className='xl:w-1/2 w-full flex justify-center items-center'>
-            <img src={vizeImg} alt='Naše vize' />
+            <img data-aos="fade-left" src={vizeImg} alt='Naše vize' />
           </div>
         </div>
       </section>

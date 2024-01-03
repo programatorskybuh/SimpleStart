@@ -14,10 +14,10 @@ const Uvod =  forwardRef((props, ref) => {
             <h1 className="text-6xl leading-normal text-wrap font-bold">Inovace, spolupráce,<br/>dokonalost</h1>
             <p className='text-xl'>To je <span className='font-bold'>SimpleStart</span>! Vaše brána k digitální excelenci,<br/>kde se inovace setkávají se světem!</p>
             <div className='flex gap-5 justify-center xl:justify-start'>
-                <img className='w-2/12 xl:w-auto' src={vscodeImg} alt='vscode' />
-                <img className='w-2/12 xl:w-auto' src={figmaImg} alt='figma' />
-                <img className='w-2/12 xl:w-auto' src={htmlImg} alt='html' />
-                <img className='w-2/12 xl:w-auto' src={psImg} alt='photoshop'/>
+                <img className='w-2/12 xl:w-auto hover:scale-110 transition' src={vscodeImg} alt='vscode' />
+                <img className='w-2/12 xl:w-auto hover:scale-110 transition' src={figmaImg} alt='figma' />
+                <img className='w-2/12 xl:w-auto hover:scale-110 transition' src={htmlImg} alt='html' />
+                <img className='w-2/12 xl:w-auto hover:scale-110 transition' src={psImg} alt='photoshop'/>
             </div>
             <button className="bg-button rounded-full py-4 px-8 text-xl">Objednat</button>
         </div>

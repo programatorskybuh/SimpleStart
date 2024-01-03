@@ -1,10 +1,12 @@
 
-import React, { Suspense, forwardRef, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
+import 'aos/dist/aos.css';
+import AOS from 'aos';
 
 import whiteLogoImg from './img/white_logo.svg';
 import fbImg from './img/facebook.svg';
 import igImg from './img/instagram.svg';
-
+import loadingImg from './img/loading.svg';
 
 const Uvod = React.lazy(() => import('./components/uvod'));
 const Produkty = React.lazy(() => import('./components/produkty'));
@@ -21,6 +23,11 @@ export default function Main() {
   const galerieRef = useRef(null);
   const kontaktyRef = useRef(null);
 
+  useEffect(() =>{
+    AOS.init();
+  }, [])
+
+
   function handleScroll(ref){
     if (ref && ref.current) {
       ref.current.scrollIntoView({ behavior: 'smooth' });
@@ -30,7 +37,7 @@ export default function Main() {
 
   return(
     <div className='font-poppins overflow-x-hidden'>  
-      <Suspense fallback={<div className='text-center text-7xl p-10'>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <Navbar toOnas={() => handleScroll(onasRef)} toGalerie={() => handleScroll(galerieRef)} toProdukty={() => handleScroll(produktyRef)} toKontakty={() => handleScroll(kontaktyRef)}/>
         <Uvod ref={uvodRef}/>   
         <Produkty ref={produktyRef}/>
@@ -148,5 +155,13 @@ function Footer(){
         </div>
       </div>
     </footer>
+  );
+}
+
+function Loading(){
+  return(
+    <div className='h-screen flex justify-center items-center bg-secondary'>
+      <img className='animate-loading' src={loadingImg} alt='Loading...'/>
+    </div>
   );
 }

@@ -14,6 +14,15 @@ module.exports = {
       },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
+      },
+      keyframes:{
+        loading:{
+          'from': {transform: 'rotate(0deg)'},
+          'to': {transform: 'rotate(360deg)'}
+        }
+      },
+      animation: {
+        loading: 'loading 2s ease-in-out infinite'
       }
     },
   },

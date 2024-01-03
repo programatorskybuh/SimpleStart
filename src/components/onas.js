@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 
 import onasImg from '../img/onas.svg';
 import calekImg from '../img/calek.svg';
@@ -22,7 +22,7 @@ const Onas = forwardRef((props, ref) => {
               <button className='bg-primary text-white rounded-full px-8 py-4 self-center xl:self-end'>Číst více</button>
             </div>
           </div>
-          <div className='xl:w-2/3 w-full flex justify-center'><img  src={onasImg} alt='O nás' /></div>
+          <div data-aos="fade-left" className='xl:w-2/3 w-full flex justify-center'><img  src={onasImg} alt='O nás' /></div>
         </div>
         <div className='flex flex-col xl:flex-row items-center w-full'>
           <div className='xl:w-1/3 w-full p-10 flex flex-col justify-between gap-5 self-start xl:pl-24'>
@@ -31,9 +31,9 @@ const Onas = forwardRef((props, ref) => {
           </div>
           <div className='flex flex-col items-center w-2/3'>
             <div className='xl:w-[1035px] flex flex-col xl:flex-row justify-between gap-6'>
-              <img src={calekImg} alt='Čáleček'/>
-              <img src={jelinekImg} alt='Jelíneček'/>
-              <img src={poustkaImg} alt='Poustíček'/>
+              <img data-aos="fade-up" src={calekImg} alt='Čáleček'/>
+              <img data-aos="fade-up" data-aos-delay="100" src={jelinekImg} alt='Jelíneček'/>
+              <img data-aos="fade-up" data-aos-delay="200" src={poustkaImg} alt='Poustíček'/>
             </div>
             <button className='text-sm text-white bg-primary rounded-full m-5 px-8 py-2'>Zobrazit více</button>
           </div>
