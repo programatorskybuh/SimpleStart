@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import onasImg from '../img/onas.svg';
 import calekImg from '../img/calek.svg';
@@ -31,9 +32,9 @@ const Onas = forwardRef((props, ref) => {
           </div>
           <div className='flex flex-col items-center w-2/3'>
             <div className='xl:w-[1035px] flex flex-col xl:flex-row justify-between gap-6'>
-              <img data-aos="fade-up" src={calekImg} alt='Čáleček'/>
-              <img data-aos="fade-up" data-aos-delay="100" src={jelinekImg} alt='Jelíneček'/>
-              <img data-aos="fade-up" data-aos-delay="200" src={poustkaImg} alt='Poustíček'/>
+              <Link to="/calek"><img className='cursor-pointer' data-aos="fade-up" src={calekImg} alt='Čáleček'/></Link>
+              <Link to="/jelinek"><img className='cursor-pointer' data-aos="fade-up" data-aos-delay="100" src={jelinekImg} alt='Jelíneček'/></Link>
+              <Link to="/poustka"><img className='cursor-pointer' data-aos="fade-up" data-aos-delay="200" src={poustkaImg} alt='Poustíček'/></Link>
             </div>
             <button className='text-sm text-white bg-primary rounded-full m-5 px-8 py-2'>Zobrazit více</button>
           </div>

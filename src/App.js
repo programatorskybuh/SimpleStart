@@ -1,5 +1,6 @@
 
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState, forwardRef } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 
@@ -16,12 +17,19 @@ const Galerie = React.lazy(() => import('./components/galerie'));
 const Dotaznik = React.lazy(() => import('./components/dotaznik'));
 const Kontakty = React.lazy(() => import('./components/kontakty'));
 
+const Poustka = React.lazy(() => import('./components/poustka'));
+const Calek = React.lazy(() => import('./components/calek'));
+const Jelinek = React.lazy(() => import('./components/jelinek'));
+
 export default function Main() {
   const uvodRef = useRef(null);
   const produktyRef = useRef(null);
   const onasRef = useRef(null);
   const galerieRef = useRef(null);
   const kontaktyRef = useRef(null);
+  const vizeRef = useRef(null);
+  const dotaznikRef = useRef(null);
+  const footerRef = useRef(null);
 
   useEffect(() =>{
     AOS.init();
@@ -37,17 +45,49 @@ export default function Main() {
 
   return(
     <div className='font-poppins overflow-x-hidden'>  
-      <Suspense fallback={<Loading />}>
-        <Navbar toOnas={() => handleScroll(onasRef)} toGalerie={() => handleScroll(galerieRef)} toProdukty={() => handleScroll(produktyRef)} toKontakty={() => handleScroll(kontaktyRef)}/>
-        <Uvod ref={uvodRef}/>   
-        <Produkty ref={produktyRef}/>
-        <Onas ref={onasRef} />
-        <Vize />
-        <Galerie ref={galerieRef}/>
-        <Dotaznik />
-        <Kontakty ref={kontaktyRef} />
-        <Footer />
-      </Suspense>    
+      <Router>
+        <Routes>
+          <Route path='/' element={
+            <Suspense fallback={<Loading />}>
+              <Navbar toOnas={() => handleScroll(onasRef)} toGalerie={() => handleScroll(galerieRef)} toProdukty={() => handleScroll(produktyRef)} toKontakty={() => handleScroll(kontaktyRef)}/>
+              <Uvod ref={uvodRef}/>   
+              <Produkty ref={produktyRef}/>
+              <Onas ref={onasRef} />
+              <Vize ref={vizeRef} />
+              <Galerie ref={galerieRef}/>
+              <Dotaznik ref={dotaznikRef} />
+              <Kontakty ref={kontaktyRef} />
+              <Footer ref={footerRef} toUvod={() => handleScroll(uvodRef)} toProdukty={() => handleScroll(produktyRef)} toOnas={() => handleScroll(onasRef)} toVize={() => handleScroll(vizeRef)} toGalerie={() => handleScroll(galerieRef)} toDotaznik={() => handleScroll(dotaznikRef)} toKontakty={() => handleScroll(kontaktyRef)}/>
+            </Suspense>  
+          }/>
+          <Route path='poustka' element={
+            <>
+              <Suspense fallback={<Loading />}>
+                <Navbar toOnas={() => handleScroll(onasRef)} toGalerie={() => handleScroll(galerieRef)} toProdukty={() => handleScroll(produktyRef)} toKontakty={() => handleScroll(kontaktyRef)}/>
+                <Poustka />
+              </Suspense>
+            </>}
+          />
+          <Route path='calek' element={
+            <>
+              <Suspense fallback={<Loading />}>
+                <Navbar toOnas={() => handleScroll(onasRef)} toGalerie={() => handleScroll(galerieRef)} toProdukty={() => handleScroll(produktyRef)} toKontakty={() => handleScroll(kontaktyRef)}/>
+                <Calek />
+              </Suspense>
+            </>}
+          />    
+          <Route path='jelinek' element={
+            <>
+              <Suspense fallback={<Loading />}>
+                <Navbar toOnas={() => handleScroll(onasRef)} toGalerie={() => handleScroll(galerieRef)} toProdukty={() => handleScroll(produktyRef)} toKontakty={() => handleScroll(kontaktyRef)}/>
+                <Jelinek />
+              </Suspense>
+            </>}
+          />     
+          <Route path='*' element={<h1 className='text-5xl text-center p-20'>Stránka nebyla nalezena</h1>} />
+        </Routes>
+      </Router> 
+       
     </div>
   );
 }
@@ -87,15 +127,17 @@ function Navbar({toOnas, toGalerie, toProdukty, toKontakty}){
     <>
       <nav className={`w-full ${!isScrollingUp ? '-translate-y-full' : 'translate-y-0'} z-50 xl:py-5 py-2 transition-all fixed flex justify-center bg-primary`}>
       <div className='w-10/12 flex items-center justify-between'>
-        <img className='cursor-pointer xl:w-auto w-10' src={whiteLogoImg} alt='logo'/>
+        <Link to="/"><img className='cursor-pointer xl:w-auto w-10' src={whiteLogoImg} alt='logo'/></Link>
         <div className='text-white text-xl hidden xl:flex gap-20 items-center'>
-          <div className='flex items-center gap-5'>
-            <a onClick={toOnas} className='cursor-pointer'>O nás</a>
-            <a onClick={toGalerie} className='cursor-pointer'>Galerie</a>
-            <a onClick={toProdukty}className='cursor-pointer'>Služby</a>
-            <a onClick={toKontakty}className='cursor-pointer'>Kontakt</a>
-            <a className='cursor-pointer'>Více</a>
-          </div>
+          <Link to="/">
+            <div className='flex items-center gap-5'>
+              <a onClick={toOnas} className='cursor-pointer'>O nás</a>
+              <a onClick={toGalerie} className='cursor-pointer'>Galerie</a>
+              <a onClick={toProdukty}className='cursor-pointer'>Služby</a>
+              <a onClick={toKontakty}className='cursor-pointer'>Kontakt</a>
+              <a className='cursor-pointer'>Více</a>
+            </div>
+          </Link>
           <button className='bg-[#6394A8] rounded-full py-3 px-8'>Objednat</button>
         </div>        
           <button onClick={toggleNav} className='xl:hidden block'><svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>              
@@ -103,39 +145,41 @@ function Navbar({toOnas, toGalerie, toProdukty, toKontakty}){
     </nav>
     <div className={`lg:hidden fixed w-full right-0 top-0 mt-16 transition duration-300  ${showNav ? 'translate-x-0' : 'translate-x-full'}`}>
     {showNav && (
-      <div className={`text-white flex gap-3 flex-col bg-primary text-xl  text-center p-5`}>
-        <a onClick={toOnas} className='cursor-pointer'>O nás</a>
-        <a onClick={toGalerie} className='cursor-pointer'>Galerie</a>
-        <a onClick={toProdukty} className='cursor-pointer'>Služby</a>
-        <a onClick={toKontakty} className='cursor-pointer'>Kontakt</a>
-      </div>)}
+      <Link to="/">
+        <div className={`text-white flex gap-3 flex-col bg-primary text-xl text-center p-5`}>
+          <a onClick={toOnas} className='cursor-pointer'>O nás</a>
+          <a onClick={toGalerie} className='cursor-pointer'>Galerie</a>
+          <a onClick={toProdukty} className='cursor-pointer'>Služby</a>
+          <a onClick={toKontakty} className='cursor-pointer'>Kontakt</a>
+        </div>
+      </Link>)}
     </div>
     </>
   );
 }
 
-function Footer(){
+const Footer = forwardRef((props, ref) =>{
   return(
     <footer className='bg-primary text-white flex justify-center'>
-      <div className='w-10/12 m-16 mb-0'>
+      <div className='w-9/12 m-16 mb-0'>
         <div className='text-sm flex flex-col xl:flex-row items-center xl:items-start xl:gap-0 gap-10 justify-between'>
           <div className='flex flex-col gap-3 items-center xl:items-start'>
             <h3 className='font-bold text-lg xl:pb-5'>SimpleStart</h3>
-            <p>Úvod</p>
-            <p>Produkty/Služby</p>
-            <p>O nás</p>
-            <p>Naše vize</p>
+            <a className='cursor-pointer' onClick={props.toUvod}>Úvod</a>
+            <a className='cursor-pointer' onClick={props.toProdukty}>Produkty/Služby</a>
+            <a className='cursor-pointer' onClick={props.toOnas}>O nás</a>
+            <a className='cursor-pointer' onClick={props.toVize}>Naše vize</a>
           </div>
           <div className='flex flex-col gap-3 items-center xl:items-start'>
             <h3 className='font-bold text-lg xl:pb-5'>Další</h3>
-            <p>Galerie</p>
-            <p>Dotazník</p>
-            <p>Kontakty</p>
+            <a className='cursor-pointer' onClick={props.toGalerie}>Galerie</a>
+            <a className='cursor-pointer' onClick={props.toDotaznik}>Dotazník</a>
+            <a className='cursor-pointer' onClick={props.toKontakty}>Kontakty</a>
           </div>
           <div className='flex flex-col gap-3 items-center xl:items-start'>
             <h3 className='font-bold text-lg xl:pb-5'>Sociální sítě</h3>
-            <p>Instagram</p>
-            <p>Facebook</p>
+            <a className='cursor-pointer'>Instagram</a>
+            <a className='cursor-pointer'>Facebook</a>
           </div>
           <div className='flex flex-col gap-3 items-center xl:items-start'>
             <h3 className='font-bold text-lg xl:pb-5'>Odebírat</h3>
@@ -156,7 +200,7 @@ function Footer(){
       </div>
     </footer>
   );
-}
+});
 
 function Loading(){
   return(

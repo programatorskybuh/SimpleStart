@@ -1,4 +1,6 @@
 import React, { forwardRef, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import arrowImg from '../img/arrow.svg';
 import doneImg from '../img/done.svg';
@@ -17,8 +19,8 @@ const Dotaznik = forwardRef((props, ref) =>{
     });
   
     function handleSubmit(){
-      alert("hotovo");
       console.log("sending:", formData);
+      setPage(page + 1);
     }
   
     function handleChange(newData){
@@ -36,12 +38,12 @@ const Dotaznik = forwardRef((props, ref) =>{
           </div>
           <img src={arrowImg} alt='šipkos' />
           <div className='flex text-xl items-center gap-2'>
-            <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white ${page === 1 && 'bg-gray-300'} ${page === 2 && 'bg-primary'} ${page === 3 && 'bg-done'}`}>{page <= 2 && ("2")}{page >= 3 && (<img src={doneImg} alt='done'/>)}</div>
-            <p className='font-bold '>společnost</p>
+            <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white ${page === 1 && 'bg-gray-300'} ${page === 2 && 'bg-primary'} ${page >= 3 && 'bg-done'}`}>{page <= 2 && ("2")}{page >= 3 && (<img src={doneImg} alt='done'/>)}</div>
+            <p className='font-bold '>Společnost</p>
           </div>
           <img src={arrowImg} alt='šipkos' />
           <div className='flex text-xl items-center gap-2'>
-            <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white ${page <= 2 && 'bg-gray-300'} ${page === 3 && 'bg-primary'}`}>{page <= 3 && ("3")}{page >= 4 && (<img src={doneImg} alt='done'/>)}</div>
+            <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white ${page <= 2 && 'bg-gray-300'} ${page === 3 && 'bg-primary'} ${page >= 4 && 'bg-done'}`}>{page <= 3 && ("3")}{page >= 4 && (<img src={doneImg} alt='done'/>)}</div>
             <p className='font-bold '>Projekt</p>
           </div>
         </header>
@@ -54,18 +56,22 @@ const Dotaznik = forwardRef((props, ref) =>{
         {page === 3 &&(
           <ThirdPage onSubmit={handleSubmit} prevPage={() => setPage(page - 1)} onChange={handleChange} formData={formData}/>
         )}
+        {page === 4 &&(
+          <Finished />
+        )}
         </div>
-     
+      <ToastContainer />
       </section>
     );
   });
   
   function FirstPage({nextPage, onChange, formData}){
+    const notify = () => toast.error('Prosím vyplň všechny položky.');
   
     function handleNextPage(){
       console.log(formData)
       if(formData.name === "" || formData.phone === "" || formData.email === ""){
-        alert("Prosím vyplň všechny položky");
+        notify();
         return;
       }
       else nextPage();
@@ -100,11 +106,12 @@ const Dotaznik = forwardRef((props, ref) =>{
   }
   
   function SecondPage({prevPage, nextPage, onChange, formData}){
-  
+    const notify = () => toast.error('Prosím vyplň všechny položky.');
+
     function handleNextPage(){
       console.log(formData)
       if(formData.company === "" || formData.motto === "" || formData.about === ""){
-        alert("Prosím vyplň všechny položky");
+        notify();
         return;
       }
       else nextPage();
@@ -140,11 +147,12 @@ const Dotaznik = forwardRef((props, ref) =>{
   }
   
   function ThirdPage({prevPage, onSubmit, onChange, formData}){
-  
+    const notify = () => toast.error('Prosím vyplň všechny položky.');
+
     function handleSend(){
       console.log(formData)
       if(formData.goal === "" || formData.hodnoceni === ""){
-        alert("Prosím vyplň všechny položky");
+        notify();
         return;
       }
       else onSubmit();
@@ -192,6 +200,15 @@ const Dotaznik = forwardRef((props, ref) =>{
           </div>
         </div>
       </>
+    );
+  }
+
+  function Finished(){
+    return(
+      <div className='flex flex-row-reverse justify-center items-center h-96 gap-3'>
+        <h1 className='font-bold text-3xl'>Děkujeme za zpětnou vazbu.</h1>
+        <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white bg-done`}><img src={doneImg} alt='done'/></div>
+      </div>
     );
   }
 
