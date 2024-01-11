@@ -1,6 +1,7 @@
 import React, { forwardRef, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 import arrowImg from '../img/arrow.svg';
 import doneImg from '../img/done.svg';
@@ -8,18 +9,25 @@ import doneImg from '../img/done.svg';
 const Dotaznik = forwardRef((props, ref) =>{
     const [page, setPage] = useState(1);
     const [formData, setFormData] = useState({
-      name: "",
-      phone: "",
+      firstName: "",
+      lastName: "",
       email: "",
-      company: "",
-      motto: "",
-      about: "",
-      goal: "",
+      design: "",
+      lag: "",
+      missing: "",
+      change: "",
       hodnoceni: ""
     });
   
     function handleSubmit(){
       console.log("sending:", formData);
+      axios.post('/projekt/mail/mail-dotaznik.php', {to: formData.email, data: formData})
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error sending email:', error);
+        });
       setPage(page + 1);
     }
   
@@ -39,12 +47,12 @@ const Dotaznik = forwardRef((props, ref) =>{
           <img src={arrowImg} alt='šipkos' />
           <div className='flex text-xl items-center gap-2'>
             <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white ${page === 1 && 'bg-gray-300'} ${page === 2 && 'bg-primary'} ${page >= 3 && 'bg-done'}`}>{page <= 2 && ("2")}{page >= 3 && (<img src={doneImg} alt='done'/>)}</div>
-            <p className='font-bold '>Společnost</p>
+            <p className='font-bold '>Funkčnost</p>
           </div>
           <img src={arrowImg} alt='šipkos' />
           <div className='flex text-xl items-center gap-2'>
             <div className={`rounded-full w-10 h-10 flex justify-center items-center text-white ${page <= 2 && 'bg-gray-300'} ${page === 3 && 'bg-primary'} ${page >= 4 && 'bg-done'}`}>{page <= 3 && ("3")}{page >= 4 && (<img src={doneImg} alt='done'/>)}</div>
-            <p className='font-bold '>Projekt</p>
+            <p className='font-bold '>hodnocení</p>
           </div>
         </header>
         {page === 1 &&(
@@ -60,19 +68,23 @@ const Dotaznik = forwardRef((props, ref) =>{
           <Finished />
         )}
         </div>
-      <ToastContainer />
       </section>
     );
   });
   
   function FirstPage({nextPage, onChange, formData}){
     const notify = () => toast.error('Prosím vyplň všechny položky.');
+    const emailError = () => toast.warning('Tvůj email je zadaný ve špatném tvaru.');
   
     function handleNextPage(){
-      console.log(formData)
-      if(formData.name === "" || formData.phone === "" || formData.email === ""){
+      let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if(formData.firstName === "" || formData.lastName === "" || formData.email === ""){
         notify();
         return;
+      }
+      else if(!emailRegex.test(formData.email)){
+        emailError();
       }
       else nextPage();
     }
@@ -86,13 +98,13 @@ const Dotaznik = forwardRef((props, ref) =>{
       <>
         <div className='my-5 flex flex-col gap-5'>
           <label className='text-xl font-bold flex flex-col'> Jméno*
-            <input onChange={handleChange} value={formData.name} name='name' className='font-normal border border-gray-300 p-5' type='text' placeholder='Zadejte Jméno a Příjmení'/>
+            <input onChange={handleChange} value={formData.firstName} name='firstName' className='font-normal border border-gray-300 p-5' type='text' placeholder='Zadejte jméno'/>
           </label>
-          <label className='text-xl font-bold flex flex-col'> Telefon*
-            <input onChange={handleChange} value={formData.phone} name='phone' className='font-normal border border-gray-300 p-5' type='text' placeholder='Zadejte číslo'/>
+          <label className='text-xl font-bold flex flex-col'> Příjmení*
+            <input onChange={handleChange} value={formData.lastName} name='lastName' className='font-normal border border-gray-300 p-5' type='text' placeholder='Zadejte příjmení'/>
           </label>
           <label className='text-xl font-bold flex flex-col'> E-mail*
-            <input onChange={handleChange} value={formData.email} name='email' className='font-normal border border-gray-300 p-5' type='text' placeholder='Zadejte email'/>
+            <input onChange={handleChange} value={formData.email} name='email' className='font-normal border border-gray-300 p-5' type='text' placeholder='Zadejte emailovou adresu'/>
           </label>
         </div>
         <div>
@@ -109,8 +121,7 @@ const Dotaznik = forwardRef((props, ref) =>{
     const notify = () => toast.error('Prosím vyplň všechny položky.');
 
     function handleNextPage(){
-      console.log(formData)
-      if(formData.company === "" || formData.motto === "" || formData.about === ""){
+      if(formData.design === "" || formData.lag === "" || formData.missing === ""){
         notify();
         return;
       }
@@ -125,14 +136,14 @@ const Dotaznik = forwardRef((props, ref) =>{
     return(
       <>
         <div className='my-5 flex flex-col gap-5'>
-          <label className='text-xl font-bold flex flex-col'> Název Společnosti*
-            <input onChange={handleChange} value={formData.company} name='company' className='font-normal border border-gray-300 p-5' type='text' placeholder='Zadejte jméno společnosti'/>
+          <label className='text-xl font-bold flex flex-col'> Co si myslíte o designu našeho webu?*
+            <input onChange={handleChange} value={formData.design} name='design' className='font-normal border border-gray-300 p-5' type='text' placeholder='Napište co si myslíte o našem designu'/>
           </label>
-          <label className='text-xl font-bold flex flex-col'> Moto společnosti*
-            <input onChange={handleChange} value={formData.motto} name='motto' className='font-normal border border-gray-300 p-5' type='text' placeholder='Zadejte moto společnosti'/>
+          <label className='text-xl font-bold flex flex-col'> Byla někdy stránka pomalá nebo jste zažili zpoždění?*
+            <input onChange={handleChange} value={formData.lag} name='lag' className='font-normal border border-gray-300 p-5' type='text' placeholder='Napište jestli jste měli problém s načítáním našeho webu'/>
           </label>
-          <label className='text-xl font-bold flex flex-col'> O vaší firmě*
-            <input onChange={handleChange} value={formData.about} name='about' className='font-normal border border-gray-300 p-5' type='text' placeholder='Řekněte nám něco o Vaší fimě'/>
+          <label className='text-xl font-bold flex flex-col'> Chybí vám nějaké důležité informace?*
+            <input onChange={handleChange} value={formData.missing} name='missing' className='font-normal border border-gray-300 p-5' type='text' placeholder='Řekněte nám co byste chtěli přidat na náš web'/>
           </label>
         </div>
         <div>
@@ -150,8 +161,7 @@ const Dotaznik = forwardRef((props, ref) =>{
     const notify = () => toast.error('Prosím vyplň všechny položky.');
 
     function handleSend(){
-      console.log(formData)
-      if(formData.goal === "" || formData.hodnoceni === ""){
+      if(formData.change === "" || formData.hodnoceni === ""){
         notify();
         return;
       }
@@ -166,8 +176,8 @@ const Dotaznik = forwardRef((props, ref) =>{
     return(
       <>
         <div className='my-5 flex flex-col gap-5'>
-        <label className='text-xl font-bold flex flex-col'> Cíle projektu*
-              <input onChange={handleChange} value={formData.goal} name='goal'  className='font-normal border border-gray-300 p-5 pb-20' type='text' placeholder='Popište cíle projektu'/>
+        <label className='text-xl font-bold flex flex-col'> Co bychom měli na našem webu změnit?*
+              <input onChange={handleChange} value={formData.change} name='change'  className='font-normal border border-gray-300 p-5 pb-20' type='text' placeholder='Popište co by mělo být změněno na našem webu'/>
             </label>
             <div>
               <label className='text-xl font-bold flex flex-col'>Jak jste spokojení s navigací na našem webu?*

@@ -3,10 +3,14 @@ import React, { Suspense, useEffect, useRef, useState, forwardRef } from 'react'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 import whiteLogoImg from './img/white_logo.svg';
 import fbImg from './img/facebook.svg';
 import igImg from './img/instagram.svg';
+import ttImg from './img/tiktok.svg';
 import loadingImg from './img/loading.svg';
 
 const Uvod = React.lazy(() => import('./components/uvod'));
@@ -45,7 +49,7 @@ export default function Main() {
 
   return(
     <div className='font-poppins overflow-x-hidden'>  
-      <Router>
+      <Router basename='/projekt'>
         <Routes>
           <Route path='/' element={
             <Suspense fallback={<Loading />}>
@@ -84,10 +88,10 @@ export default function Main() {
               </Suspense>
             </>}
           />     
-          <Route path='*' element={<h1 className='text-5xl text-center p-20'>Stránka nebyla nalezena</h1>} />
+          
         </Routes>
       </Router> 
-       
+      <ToastContainer position='bottom-right' />
     </div>
   );
 }
@@ -159,6 +163,32 @@ function Navbar({toOnas, toGalerie, toProdukty, toKontakty}){
 }
 
 const Footer = forwardRef((props, ref) =>{
+  const [email, setEmail] = useState("");
+  const fail = () => toast.error("Zadejte e-mail ve správné podobě.");
+  const congrats = () => toast.success("Děkujeme! Byli jste přihlášeni.");
+  
+  function handleSubmit(){
+    
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if(emailRegex.test(email)){
+      congrats();
+      console.log("sending:", email)
+      axios.post('/projekt/mail/mail-newsletter.php', {to: email})
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error sending email:', error);
+        });
+    }
+    else{
+      fail();
+    }
+
+    setEmail("")
+  }
+
   return(
     <footer className='bg-primary text-white flex justify-center'>
       <div className='w-9/12 m-16 mb-0'>
@@ -180,21 +210,23 @@ const Footer = forwardRef((props, ref) =>{
             <h3 className='font-bold text-lg xl:pb-5'>Sociální sítě</h3>
             <a className='cursor-pointer'>Instagram</a>
             <a className='cursor-pointer'>Facebook</a>
+            <a className='cursor-pointer'>TikTok</a>
           </div>
           <div className='flex flex-col gap-3 items-center xl:items-start'>
             <h3 className='font-bold text-lg xl:pb-5'>Odebírat</h3>
             <p>Odebírejte náš newsletter aby vám nic neuniklo.<br/><span className='flex items-center'>Odebírejte Simple<img className='w-[20px]' src={whiteLogoImg} alt='logo'/>Start.</span></p>
             <div className='flex gap-4'>
-              <input type='email' placeholder='Vaše e-mailová adresa' className='rounded-xl px-3 text-black' />
-              <input type='submit' value={"Odebírat"} className='text-black bg-white py-4 px-6 rounded-xl font-bold' />
+              <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Vaše e-mailová adresa' className='rounded-xl px-3 text-black' />
+              <input type='submit' onClick={handleSubmit} value={"Odebírat"} className='text-black bg-white py-4 px-6 rounded-xl font-bold cursor-pointer' />
             </div>
           </div>
         </div>
         <div className='flex justify-between'>
           <p className='font-light text-xs my-6'>© 2023 SimpleStart - Všechna práva vyhrazena.</p>
           <div className='flex gap-4'>
-            <img src={fbImg} alt='facebook'/>
-            <img src={igImg} alt='instagram'/>
+            <img className='cursor-pointer' src={fbImg} alt='facebook'/>
+            <img className='cursor-pointer' src={igImg} alt='instagram'/>
+            <img className='cursor-pointer' src={ttImg} alt='tiktok'/>
           </div>
         </div>
       </div>
