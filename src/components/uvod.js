@@ -19,7 +19,7 @@ const Uvod =  forwardRef((props, ref) => {
                 <img className='w-2/12 xl:w-auto hover:scale-110 transition' src={htmlImg} alt='html' />
                 <img className='w-2/12 xl:w-auto hover:scale-110 transition' src={psImg} alt='photoshop'/>
             </div>
-            <button className="bg-button rounded-full py-4 px-8 text-xl">Objednat</button>
+            <a target='_blank' href='https://www.instagram.com/simplestartsro/'><button className="bg-button rounded-full py-4 px-8 text-xl">Objednat</button></a>
         </div>
         <div>
             <img loading='lazy' src={uvodImg} alt='Uvodni obrazek' className='p-6' />

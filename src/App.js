@@ -49,7 +49,7 @@ export default function Main() {
 
   return(
     <div className='font-poppins overflow-x-hidden'>  
-      <Router basename='/projekt'>
+      <Router basename='/projekt/'>
         <Routes>
           <Route path='/' element={
             <Suspense fallback={<Loading />}>
@@ -142,7 +142,7 @@ function Navbar({toOnas, toGalerie, toProdukty, toKontakty}){
               <a className='cursor-pointer'>Více</a>
             </div>
           </Link>
-          <button className='bg-[#6394A8] rounded-full py-3 px-8'>Objednat</button>
+          <a target='_blank' href='https://www.instagram.com/simplestartsro/'><button className='bg-[#6394A8] rounded-full py-3 px-8'>Objednat</button></a>
         </div>        
           <button onClick={toggleNav} className='xl:hidden block'><svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>              
       </div>
@@ -208,9 +208,8 @@ const Footer = forwardRef((props, ref) =>{
           </div>
           <div className='flex flex-col gap-3 items-center xl:items-start'>
             <h3 className='font-bold text-lg xl:pb-5'>Sociální sítě</h3>
-            <a className='cursor-pointer'>Instagram</a>
-            <a className='cursor-pointer'>Facebook</a>
-            <a className='cursor-pointer'>TikTok</a>
+            <a target='_blank' className='cursor-pointer' href='https://www.instagram.com/simplestartsro/'>Instagram</a>
+            <a target='_blank' className='cursor-pointer' href='https://www.facebook.com/simple.start.2023'>Facebook</a>
           </div>
           <div className='flex flex-col gap-3 items-center xl:items-start'>
             <h3 className='font-bold text-lg xl:pb-5'>Odebírat</h3>
@@ -224,9 +223,8 @@ const Footer = forwardRef((props, ref) =>{
         <div className='flex justify-between'>
           <p className='font-light text-xs my-6'>© 2023 SimpleStart - Všechna práva vyhrazena.</p>
           <div className='flex gap-4'>
-            <img className='cursor-pointer' src={fbImg} alt='facebook'/>
-            <img className='cursor-pointer' src={igImg} alt='instagram'/>
-            <img className='cursor-pointer' src={ttImg} alt='tiktok'/>
+            <a target='_blank' href='https://www.facebook.com/simple.start.2023'><img className='cursor-pointer' src={fbImg} alt='facebook'/></a>
+            <a target='_blank' href='https://www.instagram.com/simplestartsro/'><img className='cursor-pointer' src={igImg} alt='instagram'/></a>
           </div>
         </div>
       </div>
